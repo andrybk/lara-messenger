@@ -15,8 +15,13 @@ class CreateUploadsTable extends Migration
     {
         Schema::create('uploads', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('claim_id');
+
             $table->string('file');
+
             $table->timestamps();
+
+            $table->foreign('claim_id')->references('id')->on('claims');
         });
     }
 

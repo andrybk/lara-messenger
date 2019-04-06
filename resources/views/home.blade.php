@@ -1,23 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+    //Logic shouldn t be there -_-
+    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('manager'))
+        @include('manager.home')
+    @endif
+    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('client'))
+        @include('client.home')
+    @endif
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

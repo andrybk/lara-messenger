@@ -40,9 +40,10 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(Role::class);
     }
-    public function isManager()
+    public function hasRole($roleName)
     {
-        return $this->role()->name == 'manager';
+        $result = $this->role->name == $roleName;
+        return $result;
     }
 
 }

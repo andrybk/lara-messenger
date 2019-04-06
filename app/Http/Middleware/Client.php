@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class Manager
+class Client
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class Manager
      */
     public function handle($request, Closure $next)
     {
-        if ( Auth::check() && Auth::user()->hasRole('manager') )
+        if ( Auth::check() && Auth::user()->hasRole('client') )
         {
             return $next($request);
         }

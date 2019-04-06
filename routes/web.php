@@ -1,5 +1,8 @@
 <?php
 
+use \Illuminate\Support\Facades\Auth;
+use \Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,3 +21,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'manager', 'as' => 'manager::', 'middleware' => ['manager']], function () {
+
+    Route::get('/', 'ManagerController@index')
+        ->name('manager');
+
+});
+Route::group(['prefix' => 'client', 'as' => 'client::', 'middleware' => ['client']], function () {
+
+    Route::get('/', 'ClientController@index')
+        ->name('client');
+
+});

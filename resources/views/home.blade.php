@@ -3,10 +3,10 @@
 @section('content')
     //Logic shouldn t be there -_-
     @if(\Illuminate\Support\Facades\Auth::user()->hasRole('manager'))
-        @include('manager.home')
+        @include('messenger.manager.claims.index')
     @endif
     @if(\Illuminate\Support\Facades\Auth::user()->hasRole('client'))
-        @include('client.home')
+        @include('messenger.client.home')
     @endif
 
 @endsection

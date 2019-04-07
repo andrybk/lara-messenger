@@ -20,6 +20,7 @@ class CreateClaimsTable extends Migration
 
             $table->string('theme');
             $table->text('message');
+            $table->boolean('answered')->default(false);
 
             $table->softDeletes();
             $table->timestamps();

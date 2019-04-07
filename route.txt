@@ -9,12 +9,13 @@
 |        | GET|HEAD | _debugbar/open                | debugbar.openhandler  | Barryvdh\Debugbar\Controllers\OpenHandlerController@handle             | Barryvdh\Debugbar\Middleware\DebugbarEnabled,Closure |
 |        | GET|HEAD | _debugbar/telescope/{id}      | debugbar.telescope    | Barryvdh\Debugbar\Controllers\TelescopeController@show                 | Barryvdh\Debugbar\Middleware\DebugbarEnabled,Closure |
 |        | GET|HEAD | api/user                      |                       | Closure                                                                | api,auth:api                                         |
-|        | GET|HEAD | client/menu                   | client::client.menu   | App\Http\Controllers\ClientController@index                            | web,client                                           |
+|        | GET|HEAD | client                        | client::client        | App\Http\Controllers\ClientController@index                            | web,client                                           |
 |        | GET|HEAD | home                          | home                  | App\Http\Controllers\HomeController@index                              | web,auth                                             |
 |        | POST     | login                         |                       | App\Http\Controllers\Auth\LoginController@login                        | web,guest                                            |
 |        | GET|HEAD | login                         | login                 | App\Http\Controllers\Auth\LoginController@showLoginForm                | web,guest                                            |
 |        | POST     | logout                        | logout                | App\Http\Controllers\Auth\LoginController@logout                       | web                                                  |
-|        | GET|HEAD | manager/menu                  | manager::manager.menu | App\Http\Controllers\ManagerController@index                           | web,manager                                          |
+|        | GET|HEAD | manager/claims                | manager.claims.index  | App\Http\Controllers\ClaimController@index                             | web                                                  |
+|        | GET|HEAD | manager/claims/{claim}        | manager.claims.show   | App\Http\Controllers\ClaimController@show                              | web                                                  |
 |        | POST     | password/email                | password.email        | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail  | web,guest                                            |
 |        | GET|HEAD | password/reset                | password.request      | App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm | web,guest                                            |
 |        | POST     | password/reset                | password.update       | App\Http\Controllers\Auth\ResetPasswordController@reset                | web,guest                                            |

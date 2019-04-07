@@ -19,18 +19,39 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'manager', 'as' => 'manager::', 'middleware' => ['manager']], function () {
 
-    Route::get('/', 'ManagerController@index')
-        ->name('manager');
+$groupData = [
+    //'namespace' => 'Messenger\Manager',
+    'prefix' => 'manager'
+];
 
+Route::group($groupData, function(){
+    //BlogCategory
+    $methods = ['index', 'show', ];
+
+    Route::resource('claims', 'ClaimController')
+        ->only($methods)
+        ->names('manager.claims');
 });
+
+
+//Route::group(['prefix' => 'manager', 'as' => 'manager::', 'middleware' => ['manager']], function () {
+//
+//    Route::get('/', 'ManagerController@index')
+//        ->name('manager');
+//
+//    $methods = ['show',];
+//    Route::resource('claims', 'ClaimController')
+//        ->only($methods)
+//        ->names('manager.claim');
+//
+//});
 Route::group(['prefix' => 'client', 'as' => 'client::', 'middleware' => ['client']], function () {
 
     Route::get('/', 'ClientController@index')
         ->name('client');
 
 });
+

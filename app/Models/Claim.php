@@ -9,6 +9,13 @@ class Claim extends Model
 {
     use SoftDeletes;
 
+    protected $casts = [
+        'answered' => 'boolean',
+
+    ];
+    protected $dates = ['created_at', 'updated_at',];
+
+
     public function user(){
         return $this->belongsTo(User::class);
     }

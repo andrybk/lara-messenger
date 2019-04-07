@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use App\Repositories\ClaimRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
-class ManagerController extends Controller
+class ClaimController extends Controller
 {
+
+    private $claimRepository;
+
+    /**
+     * CategoryController constructor.
+     */
+    public function __construct()
+    {
+        // parent::__construct();
+        $this->claimRepository = app(ClaimRepository::class);
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -17,7 +28,13 @@ class ManagerController extends Controller
      */
     public function index(Request $request)
     {
-
+        //
+        //
+        $paginator = $this->claimRepository->getAllWithPaginate(10);
+//        if ($request->ajax()) {
+//            return view('manager.includes.presult', compact('paginator'));
+//        }
+        return view('messenger.manager.claims.index', compact('paginator'));
     }
 
     /**
@@ -25,8 +42,7 @@ class ManagerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public
-    function create()
+    public function create()
     {
         //
     }
@@ -37,8 +53,7 @@ class ManagerController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public
-    function store(Request $request)
+    public function store(Request $request)
     {
         //
     }
@@ -49,10 +64,15 @@ class ManagerController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function show($id)
+    public function show(Request $request, $id)
     {
         //
+
+        $item = $this->claimRepository->getShow($id);
+
+        if ($request->ajax()) {
+            return view('messenger.manager.claims.show', compact('item'));
+        }
     }
 
     /**
@@ -61,8 +81,7 @@ class ManagerController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function edit($id)
+    public function edit($id)
     {
         //
     }
@@ -74,8 +93,7 @@ class ManagerController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -86,8 +104,7 @@ class ManagerController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public
-    function destroy($id)
+    public function destroy($id)
     {
         //
     }

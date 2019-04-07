@@ -26,9 +26,9 @@ class HomeController extends Controller
     {
         // return view('home');
         if (Auth::user()->hasRole('manager'))
-            return redirect('manager/menu');
+            return redirect('manager/claims ');
         if (Auth::user()->hasRole('client'))
-            return redirect('client/menu');
+            return redirect('client');
         return redirect('/home');
     }
 }

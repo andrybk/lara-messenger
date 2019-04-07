@@ -1,41 +1,29 @@
-var disabled = false;
 
-$(document).ready(function () {
+$('body').on('click', '.list-group-item-action', function (event) {
 
+    event.preventDefault();
 
-    $(document).on('click', '.pagination a', function (event) {
+    var me = $(this),
+        url = me.attr('href'),
+        id = me.attr('href').split('claims/')[1];
 
-        disabled = true;
-        $('a').css('opacity', '0.4');
-        event.preventDefault();
+    var links = $('a');
+    links.css('opacity', '0.4');
+    links.removeClass('active');
+    $(this).addClass('active');
 
-        $('li').removeClass('active');
-        $(this).parent('li').addClass('active');
+    $.ajax({
+        url: url,
+        datatype: "html",
+        success: function (e) {
+            links.css('opacity','1');
+            $("#tag_container").empty().html(e);
+            location.hash = id;
+        },
+    }).done(function (data) {
 
-        var page = $(this).attr('href').split('page=')[1];
-
-        $.ajax(
-            {
-                url: '?page=' + page,
-                type: "get",
-                datatype: "html",
-                success: function(e) {
-                    //Re-enable other links once ajax is complete
-                    disabled = false;
-                    //$('a').css('opacity','1');
-                }
-
-            }).done(function (data) {
-            $("#tag_container").empty().html(data);
-            location.hash = page;
-        }).fail(function (jqXHR, ajaxOptions, thrownError) {
-            alert('No response from server');
-        });
+    }).fail(function (jqXHR, ajaxOptions, thrownError) {
+        alert('No response from server');
     });
 
-});
-
-$('.pagination').click(function (event) {
-    if (disabled)
-        return false;
 });

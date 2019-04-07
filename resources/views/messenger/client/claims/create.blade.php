@@ -4,80 +4,47 @@
     /** @var \App\Models\Claim $item */
 @endphp
 @section('content')
-    @if($item->exists)
-        <form method="post" action="{{route('blog.admin.categories.update', $item->id)}}">
-            @method('PATCH')
 
-            @else
-                <form method="post" action="{{route('blog.admin.categories.store')}}">
+    <form method="post" action="{{route('client.claims.store')}}">
+        @csrf
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
 
-                    @endif
-                    @csrf
-                    <div class="row justify-content-center">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <ul class="nav nav-tabs" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab" href="#maindata"
-                                                   role="tab">Main data</a>
-                                            </li>
-                                        </ul>
-                                        <br>
+                        <div class="card-body">
+                            <h5 class="card-title">New Claim</h5>
+                            <div class="form-group">
+                                <label for="theme">Theme</label>
+                                <input type="text" value=""
+                                       name="theme"
+                                       id="theme"
+                                       class="form-control"
+                                       minlength="3"
+                                       maxlength="200"
+                                       required>
+                            </div>
 
-                                        <div class="tab-content">
-                                            <div class="tab-pane active" id="maindata" role="tabpanel">
-                                                <div class="form-group">
-                                                    <label for="title">Title</label>
-                                                    <input type="text" value="{{$item->title}}"
-                                                           name="title"
-                                                           id="title"
-                                                           class="form-control"
-                                                           minlength="3"
-                                                           required>
-                                                </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea name="message"
+                                          id="message"
+                                          rows="3"
+                                          class="form-control">{{old('description')}}</textarea>
+                            </div>
+                            <div class="row d-flex justify-content-end pr-4">
+                                <div class="btn-group-toggle">
+                                    <button type="submit" class="btn btn-lg btn-primary">Send</button>
+                                    <a ref="#"  class="btn btn-lg btn-light" >Cancel</a>
 
-                                                <div class="form-group">
-                                                    <label for="slug">Slug</label>
-                                                    <input type="text" value="{{$item->slug}}"
-                                                           name="slug"
-                                                           id="slug"
-                                                           class="form-control">
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="parent_id">Parent</label>
-                                                    <select name="parent_id"
-                                                            id="parent_id"
-                                                            class="form-control"
-                                                            placeholder="Choose category..."
-                                                            required>
-                                                        @foreach($categoryList as $categoryOption)
-                                                            <option value="{{$categoryOption->id}}"
-                                                                    @if($categoryOption->id == $item->parent_id) selected @endif>
-                                                                {{$categoryOption->id_title}}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="description">Description</label>
-                                                    <textarea name="description"
-                                                              id="description"
-                                                              rows="3"
-                                                              class="form-control">{{old('description', $item->description)}}</textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                </form>
+
+                </div>
+            </div>
+        </div>
+    </form>
 
 @endsection

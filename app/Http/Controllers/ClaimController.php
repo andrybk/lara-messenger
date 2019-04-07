@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Claim;
 use App\Repositories\ClaimRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -30,7 +31,7 @@ class ClaimController extends Controller
     {
         //
         //
-        $paginator = $this->claimRepository->getAllWithPaginate(10);
+        $paginator = $this->claimRepository->getAllWithPaginate(6);
 //        if ($request->ajax()) {
 //            return view('manager.includes.presult', compact('paginator'));
 //        }
@@ -96,6 +97,25 @@ class ClaimController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $item = Claim::find($id);
+        if (empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Note id=[{$id}] not found"])
+                ->withInput();
+        }
+        $data = ['answered' => !$item->answered];
+        $result = $item
+            ->update($data);
+        if ($result) {
+            return redirect()
+                ->route('manager.claims.index', $item->id)
+                ->with(['success' => 'Successfully updated']);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Creation error"])
+                ->withInput();
+        }
     }
 
     /**

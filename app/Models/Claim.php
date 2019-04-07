@@ -16,6 +16,7 @@ class Claim extends Model
     protected $dates = ['created_at', 'updated_at',];
 
 
+    protected $fillable = ['answered'];
     public function user(){
         return $this->belongsTo(User::class);
     }

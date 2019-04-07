@@ -29,7 +29,21 @@ $groupData = [
 
 Route::group($groupData, function(){
     //BlogCategory
-    $methods = ['index', 'show', ];
+    $methods = ['index', 'show', 'update' ];
+
+    Route::resource('claims', 'ClaimController')
+        ->only($methods)
+        ->names('manager.claims');
+});
+
+$groupData = [
+    //'namespace' => 'Messenger\Manager',
+    'prefix' => 'client'
+];
+
+Route::group($groupData, function(){
+    //BlogCategory
+    $methods = ['index', 'show', 'update' ];
 
     Route::resource('claims', 'ClaimController')
         ->only($methods)

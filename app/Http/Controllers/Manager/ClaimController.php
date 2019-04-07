@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Manager;
 
 use App\Models\Claim;
 use App\Repositories\ClaimRepository;
@@ -17,6 +17,7 @@ class ClaimController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('manager');
         // parent::__construct();
         $this->claimRepository = app(ClaimRepository::class);
     }

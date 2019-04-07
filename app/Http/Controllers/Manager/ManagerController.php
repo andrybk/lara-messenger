@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Manager;
 
 use App\Repositories\ClaimRepository;
 use Illuminate\Http\Request;

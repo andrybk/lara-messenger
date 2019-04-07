@@ -28,7 +28,7 @@ class HomeController extends Controller
         if (Auth::user()->hasRole('manager'))
             return redirect('manager/claims ');
         if (Auth::user()->hasRole('client'))
-            return redirect('client');
+            return redirect('client/claims');
         return redirect('/home');
     }
 }

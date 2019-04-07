@@ -23,49 +23,25 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 $groupData = [
-    //'namespace' => 'Messenger\Manager',
     'prefix' => 'manager'
 ];
 
 Route::group($groupData, function(){
-    //BlogCategory
     $methods = ['index', 'show', 'update' ];
 
-    Route::resource('claims', 'ClaimController')
+    Route::resource('claims', 'Manager\ClaimController')
         ->only($methods)
         ->names('manager.claims');
 });
 
 $groupData = [
-    //'namespace' => 'Messenger\Manager',
     'prefix' => 'client'
 ];
 
 Route::group($groupData, function(){
-    //BlogCategory
-    $methods = ['index', 'show', 'update' ];
+    $methods = ['index', 'show', 'destroy', 'create', 'store'];
 
-    Route::resource('claims', 'ClaimController')
+    Route::resource('claims', 'Client\ClaimController')
         ->only($methods)
-        ->names('manager.claims');
+        ->names('client.claims');
 });
-
-
-//Route::group(['prefix' => 'manager', 'as' => 'manager::', 'middleware' => ['manager']], function () {
-//
-//    Route::get('/', 'ManagerController@index')
-//        ->name('manager');
-//
-//    $methods = ['show',];
-//    Route::resource('claims', 'ClaimController')
-//        ->only($methods)
-//        ->names('manager.claim');
-//
-//});
-Route::group(['prefix' => 'client', 'as' => 'client::', 'middleware' => ['client']], function () {
-
-    Route::get('/', 'ClientController@index')
-        ->name('client');
-
-});
-

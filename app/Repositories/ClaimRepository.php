@@ -6,7 +6,6 @@ class ClaimRepository extends CoreRepository
     protected function getModelClass()
     {
         return Model::class;
-        // TODO: Implement getModelClass() method.
     }
 
 

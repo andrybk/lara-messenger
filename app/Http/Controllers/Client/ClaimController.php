@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Mail\ClaimNotification;
 use App\Models\Claim;
+use App\Models\Upload;
+use App\Models\User;
 use App\Repositories\ClaimRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class ClaimController extends Controller
@@ -30,9 +34,13 @@ class ClaimController extends Controller
      */
     public function index(Request $request)
     {
+        $item = New Claim();
 
         $paginator = $this->claimRepository->getAllByUserWithPaginate(Auth::user()->id, 6);
-        $item = $paginator->first();
+
+            if($paginator->first())
+                $item = $paginator->first();
+
 
         return view('messenger.client.claims.index', compact('paginator', 'item'));
     }
@@ -58,14 +66,17 @@ class ClaimController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
         $data = $request->input();
-        // TODO: add slug validation for generated
         if (empty($data['theme'])) {
             $data['theme'] = Str::limit($data['message'], 97) . '...';
         }
+
+        //TODO: Data validation
+
         $user_id = Auth::user()->id;
         $data['user_id'] = $user_id;
+
 
         $item = new Claim($data);
         $item->save();
@@ -76,7 +87,20 @@ class ClaimController extends Controller
             $data = ['last_claim_created_at' => $item->created_at];
             $result = $user
                 ->update($data);
+
+            $name = $request->upload->getClientOriginalName();
+            $path = $request->upload->storeAs('messenger/claims/'.$item->id, $name);
+            $upload = new Upload();
+            $upload->file = storage_path() . '\app\messenger\claims\\'.$item->id.'\\'.$name;
+            $upload->claim_id = $item->id;
+            $upload->save();
+
             if ($result) {
+
+                $moder = User::find(1);
+                Mail::to($moder)->send(new ClaimNotification($item));
+
+
                 return redirect()
                     ->route('client.claims.index')
                     ->with(['success' => 'Successfully created']);

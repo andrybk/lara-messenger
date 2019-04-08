@@ -32,6 +32,12 @@ Route::group($groupData, function(){
     Route::resource('claims', 'Manager\ClaimController')
         ->only($methods)
         ->names('manager.claims');
+
+    $methods = ['show', ];
+
+    Route::resource('Uploads', 'Manager\UploadController')
+        ->only($methods)
+        ->names('manager.uploads');
 });
 
 $groupData = [
@@ -52,6 +58,11 @@ Route::group($groupData, function(){
         ->only($methods)
         ->names('client.claims');
 
+    $methods = ['show', ];
 
+    Route::resource('Uploads', 'Client\UploadController')
+        ->only($methods)
+        ->names('client.uploads')
+        ->middleware('oneclaimperday');
 
 });

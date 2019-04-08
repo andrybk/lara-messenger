@@ -34,22 +34,25 @@
     @endif
     <div class="container">
         <div class="col-md-5">
-            <nav class="navbar navbar-toggleable-md navbar-light bg-faded d-flex justify-content-center ">
-                @if(false)
-                    <a class="btn btn-outline-primary" href="{{route('client.claims.create')}}">New Claim</a>
-                @else
-                    <a class="btn btn-outline-primary disabled" href="#"> <span data-time="{{(\Illuminate\Support\Carbon::now()->diffInRealSeconds(Auth::user()->last_claim_created_at->addDays(1)) )}}" id="countdown" class="timer"></span></a>
 
-                @endif
-
-            </nav>
         </div>
 
         <br>
-        <div class="row justify-content-center ">
+        <div class="d-flex align-items-center justify-content-center">
 
             <div class="col-md-5">
-
+                <nav class="navbar navbar-toggleable-md navbar-light bg-faded d-flex justify-content-center ">
+                    @if(\Illuminate\Support\Facades\Auth::user()->canClaim())
+                        <a class="btn btn-outline-primary" href="{{route('client.claims.create')}}">New Claim</a>
+                    @else
+                        <a class="btn btn-outline-primary disabled" href="#">
+                        <span data-time="{{\Illuminate\Support\Facades\Auth::user()->waitFor()}}" id="countdown"
+                              class="timer">
+                            {{\Illuminate\Support\Carbon::create()->addSeconds(\Illuminate\Support\Facades\Auth::user()->waitFor())->format('H:i:s')}}
+                        </span>
+                        </a>
+                    @endif
+                </nav>
                 <div class="list-group">
                     <div class="card">
 
@@ -62,7 +65,6 @@
                                 </div>
                                 <div class="d-flex w-100 justify-content-between">
                                     <small>{{\Illuminate\Support\Str::limit($claim->message, 100)}}</small>
-
                                 </div>
                             </a>
                         @endforeach
@@ -80,7 +82,7 @@
                     </div>
                 @endif
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7 @if($paginator->count() == 0) d-none @endif">
                 <div class="card" id="tag_container">
 
                     @include('messenger.client.claims.includes.item_show_ajax')
@@ -93,6 +95,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{{ asset('js/claimajax.js') }}"></script>
-    <script src="{{ asset('js/timer.js') }}"></script>
-
+    @if(!(\Illuminate\Support\Facades\Auth::user()->canClaim()))
+        <script src="{{ asset('js/timer.js') }}"></script>
+    @endif
 @endsection

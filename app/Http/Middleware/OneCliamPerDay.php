@@ -18,10 +18,7 @@ class OneCliamPerDay
      */
     public function handle($request, Closure $next)
     {
-        $user_date = Auth::user()->last_claim_created_at;
-        $if1 =  $user_date->addDays(1);
-        $if2 = Carbon::now();
-        if($if1 < $if2)
+      if(Auth::user()->canClaim())
             return $next($request);
         return Redirect::back()->withErrors(['You dont have permissions for this action']);
     }

@@ -33,7 +33,7 @@
         </div>
     @endif
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="d-flex align-items-center justify-content-center">
 
             <div class="col-md-5">
                 <div class="card">
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <div class="col-md-7">
+            <div class="col-md-7 @if($paginator->count() == 0) d-none @endif">
                 <div class="card" id="tag_container">
 
                     @include('messenger.manager.claims.includes.item_show_ajax')

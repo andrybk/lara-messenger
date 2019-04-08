@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class User extends Authenticatable
 {
@@ -41,14 +44,47 @@ class User extends Authenticatable
         'last_claim_created_at' => 'datetime',
     ];
 
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
+
     public function hasRole($roleName)
     {
         $result = $this->role->name == $roleName;
         return $result;
     }
+
+    public function waitFor()
+    {
+        if (!$this->canClaim()) {
+            $datetime = Carbon::now()->diffInRealSeconds($this->last_claim_created_at->addDays(1));
+
+            return $datetime;
+        }
+
+        return 0;
+    }
+
+    public function canClaim()
+    {
+        return true;
+
+        $user_date = $this->last_claim_created_at;
+        if ($user_date) {
+            $if1 = $user_date->addDays(1);
+            $if2 = Carbon::now();
+
+            if ($if1 < $if2) {
+
+                return true;
+            }
+
+            return false;
+        }
+        return true;
+    }
+
 
 }
 

@@ -20,7 +20,7 @@ class Claim extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-    public function upload(){
-        return $this->belongsTo(Upload::class);
+    public function uploads(){
+        return $this->hasMany(Upload::class);
     }
 }

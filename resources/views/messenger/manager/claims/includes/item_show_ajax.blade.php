@@ -15,7 +15,16 @@
                 <p class="card-text">{{$item->message}}</p>
             </div>
         </div>
-
+        @if($item->uploads()->count() > 0)
+            <div class="card m-4">
+                <div class="card-body">
+                    <div class="card-title">Attachments</div>
+                    @foreach($item->uploads as $upload)
+                        <a href="{{route('manager.uploads.show', $upload->id)}}">{{$upload->fileName()}}</a>
+                    @endforeach
+                </div>
+            </div>
+        @endif
         <div class="btn-group d-flex justify-content-center">
             @if(!$item->answered)
                 <button type="submit" class="btn btn-primary">Read</button>

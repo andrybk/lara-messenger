@@ -24,6 +24,7 @@ $('body').on('click', '.list-group-item-action', function (event) {
 
     }).fail(function (jqXHR, ajaxOptions, thrownError) {
         alert('No response from server');
+        links.css('opacity','1');
     });
 
 });

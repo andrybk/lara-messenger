@@ -14,13 +14,11 @@ class ClaimController extends Controller
 
     private $claimRepository;
 
-    /**
-     * CategoryController constructor.
-     */
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('client');
-        // parent::__construct();
+
         $this->claimRepository = app(ClaimRepository::class);
     }
 
@@ -32,14 +30,10 @@ class ClaimController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        //
+
         $paginator = $this->claimRepository->getAllByUserWithPaginate(Auth::user()->id, 6);
         $item = $paginator->first();
 
-//        if ($request->ajax()) {
-//            return view('manager.includes.presult', compact('paginator'));
-//        }
         return view('messenger.client.claims.index', compact('paginator', 'item'));
     }
 
@@ -70,14 +64,31 @@ class ClaimController extends Controller
         if (empty($data['theme'])) {
             $data['theme'] = Str::limit($data['message'], 97) . '...';
         }
-        $data['user_id'] = Auth::user()->id;
+        $user_id = Auth::user()->id;
+        $data['user_id'] = $user_id;
 
         $item = new Claim($data);
         $item->save();
         if ($item) {
-            return redirect()
-                ->route('client.claims.index')
-                ->with(['success' => 'Successfully created']);
+
+            $user = \App\Models\User::find($user_id);
+
+            $data = ['last_claim_created_at' => $item->created_at];
+            $result = $user
+                ->update($data);
+            if ($result) {
+                return redirect()
+                    ->route('client.claims.index')
+                    ->with(['success' => 'Successfully created']);
+            } else {
+                $result = $item
+                    ->delete();
+                return back()
+                    ->withErrors(['msg' => "Creation error"])
+                    ->withInput();
+            }
+
+
         } else {
             return back()
                 ->withErrors(['msg' => "Creation error"])
@@ -94,19 +105,13 @@ class ClaimController extends Controller
      */
     public function show(Request $request, $id)
     {
-        //
-
         $item = $this->claimRepository->getShow($id);
-
-
         //should be in middleware
-
         if ($item->user_id == Auth::user()->id) {
 
             if ($request->ajax()) {
                 return view('messenger.client.claims.includes.item_show_ajax', compact('item'));
             }
-           // return view('messenger.client.claims.index', compact('item'));
         }
     }
 

@@ -34,9 +34,14 @@
     @endif
     <div class="container">
         <div class="col-md-5">
-            <nav class="navbar navbar-toggleable-md navbar-light bg-faded d-flex justify-content-center">
+            <nav class="navbar navbar-toggleable-md navbar-light bg-faded d-flex justify-content-center ">
+                @if(false)
+                    <a class="btn btn-outline-primary" href="{{route('client.claims.create')}}">New Claim</a>
+                @else
+                    <a class="btn btn-outline-primary disabled" href="#"> <span data-time="{{(\Illuminate\Support\Carbon::now()->diffInRealSeconds(Auth::user()->last_claim_created_at->addDays(1)) )}}" id="countdown" class="timer"></span></a>
 
-                <a class="btn btn-outline-primary" href="{{route('client.claims.create')}}">New Claim</a>
+                @endif
+
             </nav>
         </div>
 
@@ -88,5 +93,6 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{{ asset('js/claimajax.js') }}"></script>
+    <script src="{{ asset('js/timer.js') }}"></script>
 
 @endsection

@@ -39,9 +39,19 @@ $groupData = [
 ];
 
 Route::group($groupData, function(){
-    $methods = ['index', 'show', 'destroy', 'create', 'store'];
+    $methods = ['create', 'store',];
+
+    Route::resource('claims', 'Client\ClaimController')
+        ->only($methods)
+        ->names('client.claims')
+        ->middleware('oneclaimperday');
+
+    $methods = ['index', 'show', 'destroy',];
 
     Route::resource('claims', 'Client\ClaimController')
         ->only($methods)
         ->names('client.claims');
+
+
+
 });

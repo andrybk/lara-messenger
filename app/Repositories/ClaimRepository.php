@@ -49,9 +49,9 @@ class ClaimRepository extends CoreRepository
         $result = $this->startConditions()
             ->select($columns)
             ->orderBy('created_at', 'DESC')
-            ->with([
-                'user:id,name,email',
-            ])
+//            ->with([
+//                'user:id,name,email',
+//            ])
             ->where('user_id', $user_id)
             ->paginate(($perPage == null) ? 25 : $perPage);
         return $result;

@@ -40,7 +40,7 @@
 
                     <div class="list-group">
                         @foreach ($paginator as $claim)
-                            <a href="#"
+                            <a href="{{route('manager.claims.show', $claim->id)}}"
                                class="list-group-item list-group-item-action @if($claim == $paginator->first()) active @endif">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">{{$claim->user->name}}</h5>
@@ -59,34 +59,10 @@
             </div>
 
             <div class="col-md-7">
-                <div class="card">
+                <div class="card" id="tag_container">
 
-                    <form method="post" action="{{route('manager.claims.update', $paginator->first()->id)}}">
-                        @method('PATCH')
-                        @csrf
-                        <div class="card-body">
-                            <h5 class="card-title">{{$paginator->first()->theme}}</h5>
-                            <div class="d-flex w-100 justify-content-between">
-                                <span class="align-self-center pl-2">{{$paginator->first()->created_at->format('d M H:i')}}</span>
-                                <div class="d-flex flex-column">
-                                    <footer class="blockquote-footer">{{$paginator->first()->user->name}}</footer>
-                                    <span class="mb-1">{{$paginator->first()->user->email}}</span>
-                                </div>
-                            </div>
-                            <div class="card m-4">
-                                <div class="card-body">
-                                    <p class="card-text">{{$paginator->first()->message}}</p>
-                                </div>
-                            </div>
+                    @include('messenger.manager.claims.includes.item_show_ajax')
 
-                            <div class="btn-group d-flex justify-content-center">
-                                @if(!$paginator->first()->answered)
-                                    <button type="submit" class="btn btn-primary">Read</button>
-                                @else
-                                    <button type="submit" class="btn btn-light">Unread</button>
-                            </div>
-                            @endif
-                        </div>
                 </div>
             </div>
         </div>
@@ -103,6 +79,6 @@
     @endif
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="{{-- asset('js/claimajax.js') --}}"></script>
+    <script src="{{ asset('js/claimajax.js') }}"></script>
 
 @endsection

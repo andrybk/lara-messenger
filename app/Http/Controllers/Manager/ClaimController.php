@@ -6,6 +6,7 @@ use App\Models\Claim;
 use App\Repositories\ClaimRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ClaimController extends Controller
 {
@@ -17,8 +18,9 @@ class ClaimController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware('manager');
-        // parent::__construct();
+
         $this->claimRepository = app(ClaimRepository::class);
     }
 
@@ -30,13 +32,10 @@ class ClaimController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        //
-        $paginator = $this->claimRepository->getAllWithPaginate(6);
-//        if ($request->ajax()) {
-//            return view('manager.includes.presult', compact('paginator'));
-//        }
-        return view('messenger.manager.claims.index', compact('paginator'));
+        $paginator = $this->claimRepository->getAllWithPaginate(10);
+        $item = $paginator->first();
+
+        return view('messenger.manager.claims.index', compact('paginator', 'item'));
     }
 
     /**
@@ -68,12 +67,10 @@ class ClaimController extends Controller
      */
     public function show(Request $request, $id)
     {
-        //
-
         $item = $this->claimRepository->getShow($id);
 
         if ($request->ajax()) {
-            return view('messenger.manager.claims.show', compact('item'));
+            return view('messenger.manager.claims.includes.item_show_ajax', compact('item'));
         }
     }
 
@@ -110,7 +107,7 @@ class ClaimController extends Controller
             ->update($data);
         if ($result) {
             return redirect()
-                ->route('manager.claims.index', $item->id)
+                ->route('manager.claims.index')
                 ->with(['success' => 'Successfully updated']);
         } else {
             return back()

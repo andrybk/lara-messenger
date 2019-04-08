@@ -10,13 +10,16 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $dates = ['created_at', 'updated_at', 'last_claim_created_at'];
+
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'last_claim_created_at'
     ];
 
     /**
@@ -35,6 +38,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_claim_created_at' => 'datetime',
     ];
 
     public function role(){

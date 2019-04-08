@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\Client;
 use App\Http\Middleware\Manager;
+use App\Http\Middleware\OneCliamPerDay;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,6 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'manager' => Manager::class,
         'client' => Client::class,
+        'oneclaimperday' => OneCliamPerDay::class,
     ];
 
     /**

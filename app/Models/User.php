@@ -68,7 +68,6 @@ class User extends Authenticatable
 
     public function canClaim()
     {
-        return true;
 
         $user_date = $this->last_claim_created_at;
         if ($user_date) {

@@ -44,6 +44,7 @@ class User extends Authenticatable
         'last_claim_created_at' => 'datetime',
     ];
 
+
     public function role()
     {
         return $this->belongsTo(Role::class);
@@ -68,6 +69,7 @@ class User extends Authenticatable
 
     public function canClaim()
     {
+        return true;
 
         $user_date = $this->last_claim_created_at;
         if ($user_date) {

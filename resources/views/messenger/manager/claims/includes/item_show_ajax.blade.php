@@ -27,9 +27,9 @@
         @endif
         <div class="btn-group d-flex justify-content-center">
             @if(!$item->answered)
-                <button type="submit" class="btn btn-primary">Read</button>
+                <button type="submit" class="btn btn-primary">Answered</button>
             @else
-                <button type="submit" class="btn btn-light">Unread</button>
+                <button type="submit" class="btn btn-light">Not answered</button>
         </div>
         @endif
 

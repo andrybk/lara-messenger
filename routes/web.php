@@ -29,13 +29,13 @@ $groupData = [
 Route::group($groupData, function(){
     $methods = ['index', 'show', 'update' ];
 
-    Route::resource('claims', 'Manager\ClaimController')
+    Route::resource('claims', 'Messenger\Manager\ClaimController')
         ->only($methods)
         ->names('manager.claims');
 
     $methods = ['show', ];
 
-    Route::resource('Uploads', 'Manager\UploadController')
+    Route::resource('Uploads', 'Messenger\Manager\UploadController')
         ->only($methods)
         ->names('manager.uploads');
 });
@@ -45,24 +45,34 @@ $groupData = [
 ];
 
 Route::group($groupData, function(){
+
+    // This sequence is important!!!
+    // If implement firstly the SHOW method
+    // host.local/client/claims/create
+    // will be routed to the Client\ClaimConroller@show with id "create"
+
+    //TODO: How this working, and how it should?
+
     $methods = ['create', 'store',];
 
-    Route::resource('claims', 'Client\ClaimController')
+    Route::resource('claims', 'Messenger\Client\ClaimController')
         ->only($methods)
         ->names('client.claims')
         ->middleware('oneclaimperday');
 
+
+
     $methods = ['index', 'show', 'destroy',];
 
-    Route::resource('claims', 'Client\ClaimController')
+    Route::resource('claims', 'Messenger\Client\ClaimController')
         ->only($methods)
         ->names('client.claims');
 
+
     $methods = ['show', ];
 
-    Route::resource('Uploads', 'Client\UploadController')
+    Route::resource('Uploads', 'Messenger\Client\UploadController')
         ->only($methods)
-        ->names('client.uploads')
-        ->middleware('oneclaimperday');
+        ->names('client.uploads');
 
 });

@@ -32,6 +32,7 @@
                                           rows="3"
                                           class="form-control">{{old('description')}}</textarea>
                             </div>
+                            {{--TODO: Make field larger or remove default button--}}
                             <div class="form-group">
                                 <label for="upload">Attachment</label>
                                 <input type="file" name="upload" class="form-control">

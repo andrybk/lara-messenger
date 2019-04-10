@@ -13,6 +13,8 @@ class Upload extends Model
     }
 
     public function fileName(){
-        return basename($this->file);
+        $path = $this->file;
+        $result = basename($this->file);
+        return $result;
     }
 }

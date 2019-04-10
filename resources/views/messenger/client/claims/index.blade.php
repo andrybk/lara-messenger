@@ -95,6 +95,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{{ asset('js/claimajax.js') }}"></script>
+    {{--TODO: canClaim should be realized as middleware, if yes how to handle it for blade?--}}
     @if(!(\Illuminate\Support\Facades\Auth::user()->canClaim()))
         <script src="{{ asset('js/timer.js') }}"></script>
     @endif

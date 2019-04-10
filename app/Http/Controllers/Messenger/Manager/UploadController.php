@@ -1,12 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Messenger\Manager;
 
+use App\Models\Upload;
+use App\Repositories\ClaimRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ClientController extends Controller
+class UploadController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('manager');
+
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +25,6 @@ class ClientController extends Controller
     public function index()
     {
         //
-        return view('messenger.client.claims.index');
     }
 
     /**
@@ -31,7 +40,7 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,18 +51,21 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
+        $item = Upload::find($id);
+        $pathToFile = $item->file;
+        return response()->download($pathToFile);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -64,8 +76,8 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -76,7 +88,7 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

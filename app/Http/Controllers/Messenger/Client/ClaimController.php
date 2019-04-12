@@ -114,8 +114,7 @@ class ClaimController extends Controller
                 $upload->file = storage_path() . '/app/messenger/claims/' . $new_claim->id . '/' . $upload_name;
                 $upload->claim_id = $new_claim->id;
                 $upload_insert_result = $upload->save();
-            }
-            else{
+            } else {
                 // If we havent attachment we dont need this flag
                 $upload_insert_result = true;
 
@@ -123,9 +122,14 @@ class ClaimController extends Controller
         }
 
         if ($upload_insert_result) {
-            //TODO: find all moderators and notify them all
-            $moderator = User::find(1);
-            Mail::to($moderator)->send(new ClaimNotification($new_claim));
+            if ((env('MAIL_USERNAME') != null) &&
+                (env('MAIL_PASSWORD') != null)) {
+                //TODO: find all moderators and notify them all
+                $moderator = User::find(1);
+                Mail::to($moderator)->send(new ClaimNotification($new_claim));
+            } else {
+                //TODO: made an exception notification for system admin
+            }
         }
 
         //--------Error------------
